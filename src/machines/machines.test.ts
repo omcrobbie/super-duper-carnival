@@ -10,19 +10,19 @@ describe("createPage", () => {
   });
   it("should update step to complete then incomplete", () => {
     const service = interpret(createPage("page1")).start();
-    const stepService = service.children.get("step1");
+    const stepService = service.children.get("step1")! as any;
     stepService?.send({ type: "VALIDATE" });
     stepService?.send({ type: "COMPLETE" });
     expect(service.getSnapshot().context.completedSteps).toContain("step1");
     stepService?.send({ type: "SKIP" });
-    expect(stepService.getSnapshot().context.skipped).toBeTruthy();
+    expect(stepService!.getSnapshot().context.skipped).toBeTruthy();
     stepService?.send({ type: "SKIP" });
     expect(service.getSnapshot().context.completedSteps).not.toContain("step1");
     expect(stepService.state.value).toBe("completed");
   });
   it("should complete a step via SKIP", () => {
     const service = interpret(createPage("page1")).start();
-    const stepService = service.children.get("step1");
+    const stepService = service.children.get("step1") as any;
     stepService?.send({ type: "SKIP" });
     expect(stepService?.getSnapshot().context.skipped).toBe(true);
     expect(stepService?.state.matches("invalid")).toBeTruthy();

@@ -9,7 +9,7 @@ export type StepContext = {
 };
 export type StepEvent = {
   type: string;
-  id?: string;
+  id: string;
 };
 
 export const spawnStep = (id: string, skippable = false) =>
