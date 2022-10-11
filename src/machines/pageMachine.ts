@@ -1,5 +1,5 @@
-import { createMachine } from "xstate";
-import { spawnStep, StepEvent } from "./stepMachine";
+import { createMachine, spawn } from "xstate";
+import { childStep, StepEvent } from "./stepMachine";
 import { assign } from "@xstate/immer";
 
 export type PageContext = {
@@ -8,7 +8,7 @@ export type PageContext = {
   pageComplete: boolean;
 };
 
-export const createPage = (id: string) =>
+export const createPage = (id: string, steps: ReturnType<typeof childStep>[]) =>
   createMachine<PageContext, StepEvent>({
     predictableActionArguments: true,
     context: { steps: [], completedSteps: [], pageComplete: false },
@@ -17,7 +17,7 @@ export const createPage = (id: string) =>
     states: {
       loading: {
         entry: assign((ctx: PageContext) => {
-          ctx.steps = [spawnStep("step1", true), spawnStep("step2")];
+          ctx.steps = steps.map((s) => spawn(s, s.config.id));
         }),
         always: {
           cond: ({ steps }) => !!steps.length,
