@@ -1,5 +1,5 @@
 import { createMachine, spawn } from "xstate";
-import { childStep, StepEvent } from "./stepMachine";
+import { createChild, StepEvent } from "./stepMachine";
 import { assign } from "@xstate/immer";
 
 export type PageContext = {
@@ -8,7 +8,10 @@ export type PageContext = {
   pageComplete: boolean;
 };
 
-export const createPage = (id: string, steps: ReturnType<typeof childStep>[]) =>
+export const createPage = (
+  id: string,
+  steps: ReturnType<typeof createChild>[]
+) =>
   createMachine<PageContext, StepEvent>({
     predictableActionArguments: true,
     context: { steps: [], completedSteps: [], pageComplete: false },

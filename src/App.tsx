@@ -1,7 +1,20 @@
 import "./App.css";
+import { PageBuilder } from "./components/PageBuilder";
+import { useAppContext } from "./utils/appState";
 
 const App = () => {
-  return <h1 className="text-3xl font-bold">Hello world!</h1>;
+	const { pages } = useAppContext();
+	console.log(pages);
+	return (
+		<>
+			{Object.keys(pages).map((key) => (
+				<div key={key}>
+					<PageBuilder name={key} />
+				</div>
+			))}
+			<PageBuilder />
+		</>
+	);
 };
 
 export default App;
