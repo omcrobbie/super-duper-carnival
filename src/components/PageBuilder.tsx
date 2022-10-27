@@ -17,10 +17,12 @@ export const PageBuilder: React.FunctionComponent<{ name?: string }> = ({
 					ref={nameRef}
 					id="page-name-field"
 					type="text"
-					title="name"
+					title="title"
 					defaultValue={name}
 				/>
 				<Button
+					type="submit"
+					className="mx-2"
 					content="Add page+"
 					onClick={() => {
 						createPage?.(nameRef?.current?.value);

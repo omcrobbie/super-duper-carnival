@@ -51,7 +51,14 @@ export const StepBuilder: React.FunctionComponent<Props> = ({
 				}
 				defaultValue={step?.skippable}
 			/>
-			<Button content="Add step+" onClick={() => addStep?.(state, pageName)} />
+			<Button
+				content="Add step+"
+				className="mx-2"
+				onClick={() => {
+					addStep?.({ ...state }, pageName);
+					setState({});
+				}}
+			/>
 		</Builder>
 	);
 };

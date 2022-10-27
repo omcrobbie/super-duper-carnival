@@ -14,12 +14,10 @@ export interface AppContext {
 	createPage?: (pageName?: string) => void;
 	addStep?: (step: Step, pageName?: string) => void;
 	pages: { [key: string]: Page };
-	lastPageName: string;
 }
 
 const appContextDefaults: AppContext = {
 	pages: {},
-	lastPageName: "",
 };
 const appContext = React.createContext<AppContext>(appContextDefaults);
 
@@ -29,7 +27,6 @@ export const AppContextProvider = ({
 	children: React.ReactNode;
 }) => {
 	const [pages, setPages] = React.useState<{ [key: string]: Page }>({});
-	const [lastPageName, setLastPageName] = React.useState<string>("");
 
 	const createPage = (pageName?: string) => {
 		if (pageName) {
@@ -39,7 +36,6 @@ export const AppContextProvider = ({
 					steps: [],
 				},
 			});
-			setLastPageName(pageName);
 		}
 	};
 	const addStep = (step: Step, pageName?: string) => {
@@ -54,7 +50,7 @@ export const AppContextProvider = ({
 		}
 	};
 	return (
-		<appContext.Provider value={{ pages, createPage, lastPageName, addStep }}>
+		<appContext.Provider value={{ pages, createPage, addStep }}>
 			{children}
 		</appContext.Provider>
 	);
